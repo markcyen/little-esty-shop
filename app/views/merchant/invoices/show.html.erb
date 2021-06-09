@@ -21,7 +21,7 @@
 <% @invoice_items.each do |item| %>
 <p>Name: <%= Item.where('id = ?', item.item_id).first.name %></p>
 <p>Quantity Ordered: <%= item.quantity %></p>
-<p>Price Sold For: <%= item.unit_price %></p>
+<p>Price Sold For: $<%= number_with_precision((item.unit_price.to_f / 100), precision: 2, delimiter: ',') %></p>
 <%= form_with url: "/merchants/#{@merchant.id}/invoices/#{@invoice.id}?item_id=#{item.id}", method: :patch, local: true do |f| %>
 <p>Status: <%= f.select :status, ['pending','packaged', 'shipped'], selected: item.status  %></p>
 <%= f.submit 'Update Status' %>

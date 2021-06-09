@@ -43,11 +43,10 @@
     <section id='top_five'>
       <% @top_five.each do |merchant| %>
         <p><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %> <%= "Top selling date for #{merchant.name} was on: #{Invoice.top_five_best_day(merchant.id).strftime('%m/%d/%Y')}" %></p>
-        <%= merchant.total_revenue %>
+        <p>Total Revenue: $<%= number_with_precision((merchant.total_revenue.to_f / 100), precision: 2, delimiter: ',') %></p>
       <% end %>
     </section>
 
   </div>
 
 </div>
-
