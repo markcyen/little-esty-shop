@@ -32,7 +32,7 @@ This project requires Ruby 2.5.3.
 
 ## Our Schema
 
-![Our Little Esty Shop Schema](/Users/markcyen/turing/2module/projects/little-esty-shop/app/assets/images/schema_drawing.jpg "Our Little Esty Shop Schema")
+![Our Little Esty Shop Schema](/app/assets/images/schema_drawing.jpg "Our Little Esty Shop Schema")
 
 ## Phases
 
