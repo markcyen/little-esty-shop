@@ -20,10 +20,10 @@
   <head>
     <meta charset="utf-8">
     <title>Admin Invoices Index Page</title>
-    <h1>Admin Invoices Index Page</h1>
+    <h1>Invoices Index Page</h1>
   </head>
   <body>
-    <h3>All Invoces</h3>
+
     <% @invoices.each do |invoice| %>
       <%= link_to "Invoice ##{invoice.id}", "/admin/invoices/#{invoice.id}" %><br>
     <% end %>
