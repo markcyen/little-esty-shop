@@ -30,6 +30,10 @@ This project requires Ruby 2.5.3.
 * Run the test suite with `bundle exec rspec`.
 * Run your development server with `rails s` to see the app in action.
 
+## Our Schema
+
+![Our Little Esty Shop Schema](/Users/markcyen/turing/2module/projects/little-esty-shop/app/assets/images/schema_drawing.jpg "Our Little Esty Shop Schema")
+
 ## Phases
 
 1. [Database Setup](./doc/db_setup.md)
