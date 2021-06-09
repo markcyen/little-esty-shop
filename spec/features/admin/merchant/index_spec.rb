@@ -107,5 +107,6 @@ RSpec.describe 'Admin Merchant Index Page' do
     within('#top_five') do
       expect(page).to have_content(Date.today.strftime('%m/%d/%Y'))
     end
+    save_and_open_page
   end
 end
