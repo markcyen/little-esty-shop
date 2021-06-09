@@ -49,8 +49,8 @@ RSpec.describe 'Merchant Invoice Show Page' do
   end
 
   it 'shows the unit price' do
-    expect(page).to have_content(@invoice_items_1.unit_price)
-    expect(page).to have_content(@invoice_items_2.unit_price)
+    expect(page).to have_content(@invoice_items_1.unit_price.to_f / 100)
+    expect(page).to have_content(@invoice_items_2.unit_price.to_f / 100)
   end
 
   it 'shows the status' do

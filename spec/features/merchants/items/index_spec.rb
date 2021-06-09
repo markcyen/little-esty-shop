@@ -148,11 +148,11 @@ RSpec.describe 'Merchant Items Index' do
   it 'shows top 5 times for merchant' do
     visit "/merchants/#{@merchant_1.id}/items"
     # save_and_open_page
-    expect(page).to have_content("1. Ice Cream 120.0")
-    expect(page).to have_content("2. Applesauce 90.0")
-    expect(page).to have_content("3. Waffles 60.0")
-    expect(page).to have_content("4. Bread 45.0")
-    expect(page).to have_content("5. Milk 30.0")
+    expect(page).to have_content("1. Ice Cream $120.0")
+    expect(page).to have_content("2. Applesauce $90.0")
+    expect(page).to have_content("3. Waffles $60.0")
+    expect(page).to have_content("4. Bread $45.0")
+    expect(page).to have_content("5. Milk $30.0")
   end
 
   #   Merchant Items Index: Top Item's Best Day
