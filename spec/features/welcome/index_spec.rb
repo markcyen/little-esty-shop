@@ -11,7 +11,8 @@ RSpec.describe 'Welcome Page' do
       expect(current_path).to eq('/admin')
   end
 
-  it 'contains all contributors, their total commits, and the total pull requests' do
+  xit 'contains all contributors, their total commits, and the total pull requests' do
+
     new = GithubUser.new('JBrabson', 'little-esty-shop')
 
     visit '/'
