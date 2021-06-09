@@ -13,7 +13,6 @@
 
 <h2 class="title_wrapper">My Invoices</h2>
 
-<h2><%= "#{@merchant.name}'s Invoices" %></h2>
 <ol>
   <% @invoices.each do |invoice| %>
     <%= link_to "Invoice-##{invoice.id}", "/merchants/#{@merchant.id}/invoices/#{invoice.id}" %><br/>

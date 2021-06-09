@@ -15,8 +15,11 @@
 
 <h2 class="title_wrapper">Invoices</h2>
 
+    <h1>Invoices Index Page</h1>
+
   <body>
-    <h3>All Invoices</h3>
+    
+
     <% @invoices.each do |invoice| %>
       <%= link_to "Invoice ##{invoice.id}", "/admin/invoices/#{invoice.id}" %><br>
     <% end %>
