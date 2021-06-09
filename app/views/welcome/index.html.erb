@@ -1,6 +1,21 @@
-Contributors and Total Commits:
-<% @names_and_commits.each do |name, commit| %>
-<%= "#{name}:#{commit}" %>
-<% end %>
+<h1>Welcome to Our Little Esty Shop</h1>
+<h6>[Disclaimer: Don't confuse our shop with Etsy!]</h6>
+
+<h3><%= link_to "Admin's Dashboard", '/admin' %></h3>
+<h3>Link to Merchant's Main Dashboard is currently under construction.</h3>
+
+<h4>Contributors and Total Commits:</h4>
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Commits</th>
+  </tr>
+  <% @names_and_commits.each do |name, commit| %>
+  <tr>
+    <td style="text-align: left"><%= name %></td>
+    <td style="text-align: center"><%= commit %></td>
+  </tr>
+  <% end %>
+</table>
 
 <p>Total Merged Pull Requests: <%= @merged_pulls %></p>

@@ -3,7 +3,7 @@
 </div>
 
 <div class="nav_bar_wrapper">
-  <h1 class="title_name">Admin Dashboard</h1>
+  <h1 class="title_name"><%= "#{@merchant.name}'s Show Page" %></h1>
   <div class="nav_bar_links">
     <p class="nav_bar_links_inline"><%= button_to "Dashboard", "/admin", method: :get %></p>
     <p class="nav_bar_links_inline"><%= button_to "Merchants", "/admin/merchants", method: :get %></p>
@@ -12,8 +12,5 @@
 </div>
 
 <h2 class="title_wrapper"><%= @merchant.name %></h2>
-
-
-<h1><%= "#{@merchant.name}'s Show Page" %></h1>
 
 <%= link_to "Update #{@merchant.name}", "/admin/merchants/#{@merchant.id}/edit?name=#{@merchant.name}" %>

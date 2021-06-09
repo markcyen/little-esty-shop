@@ -4,7 +4,7 @@
 </div>
 
 <div class="nav_bar_wrapper">
-  <h1 class="title_name">Admin Dashboard</h1>
+  <h1 class="title_name">Admin Invoice Show Page</h1>
   <div class="nav_bar_links">
     <p class="nav_bar_links_inline"><%= button_to "Dashboard", "/admin", method: :get %></p>
     <p class="nav_bar_links_inline"><%= button_to "Merchants", "/admin/merchants", method: :get %></p>
@@ -14,20 +14,13 @@
 
 <h2 class="title_wrapper">Invoice #<%= @invoice.id %></h2>
 
-
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Admin Invoice Show Page</title>
-
-  </head>
   <body>
   
     <section>
       <div>
         <div style='display:flex;' name="Current Status">Status:
           <%= form_with url: "/admin/invoices/#{@invoice.id}", method: :patch, local: true do |f| %>
-            <%= f.select :status, ["In Progress", "Completed", "Cancelled"], selected: @invoice.status %>
+            <%= f.select :status, ["in progress", "completed", "cancelled"], selected: @invoice.status %>
             <%= f.submit "Update Invoice Status" %>
           <% end %>
         </div>
@@ -58,4 +51,3 @@
       </table>
     </section>
   </body>
-</html>
