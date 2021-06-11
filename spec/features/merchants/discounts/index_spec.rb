@@ -82,5 +82,15 @@ RSpec.describe Merchant, type: :feature do
       expect(page).to have_content(@discount_2.threshold)
       expect(page).to have_content(@discount_3.threshold)
     end
+
+    it 'lists three upcoming holidays on page' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
+
+      next_three_holidays = NagerAPI.upcoming_holidays
+
+      expect(page).to have_content("#{next_three_holidays[0].name}: #{next_three_holidays[0].date}")
+      expect(page).to have_content("#{next_three_holidays[1].name}: #{next_three_holidays[1].date}")
+      expect(page).to have_content("#{next_three_holidays[2].name}: #{next_three_holidays[2].date}")
+    end
   end
 end
