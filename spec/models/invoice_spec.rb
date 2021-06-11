@@ -66,7 +66,7 @@ RSpec.describe Invoice, type: :model do
 
   describe '.top_five_best_day' do
     it 'calculates a merchants top five best day' do
-      expect(Invoice.top_five_best_day(@merchant_1.id).strftime('%m/%d/%Y')).to eq(Date.today.strftime('%m/%d/%Y'))
+      expect(Invoice.top_five_best_day(@merchant_1.id).strftime('%m/%d/%Y')).to eq((Time.now + 6.hour).strftime('%m/%d/%Y'))
     end
   end
 end

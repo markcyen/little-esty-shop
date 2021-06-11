@@ -36,14 +36,14 @@ RSpec.describe 'Merchant Items Show Page' do
     expect(page).to have_content('Current Selling Price')
   end
 
-  xit 'has information pre-populated' do
+  it 'has information pre-populated' do
     visit "/merchants/#{@merchant_1.id}/items/#{@item_1.id}"
 
     click_on 'Update Doritos'
 
-    expect(page).to have_text('Doritos')
-    expect(page).to have_content('Delicious')
-    expect(page).to have_content(100)
+    expect(find_field(:name).value).to eq('Doritos')
+    expect(find_field(:description).value).to eq('Delicious')
+    expect(find_field(:unit_price).value.to_i).to eq(100)
   end
 
   it 'updates information' do
