@@ -100,31 +100,17 @@ RSpec.describe Merchant, type: :feature do
       describe "and I see names of items ordered but not yet shipped" do
         it "and invoice id next to each item is a link to merchant invoice show page" do
           visit "/merchants/#{@merchant_1.id}/dashboard"
+
           expect(page).to have_content("Items Ready to Ship")
-          #how to use within
           expect(page).to have_content("#{@item_1.name}")
           expect(page).to_not have_content("#{@item_2.name}")
-          # click_link("#{@invoice_1.id}")
-          # expect(page).to have_current_path("/merchants/#{@merchant_1.merchant_id}/invoices/#{@invoice_1.id}")
         end
       end
     end
 
-    #     Merchant Dashboard Statistics - Favorite Customers
-    #
-    # As a merchant,
-    # When I visit my merchant dashboard
-    # Then I see the names of the top 5 customers
-    # who have conducted the largest number of successful transactions with my merchant
-    # And next to each customer name I see the number of successful transactions they have
-    # conducted with my merchant
-
     it "should list top 5 customers per merchant" do
       visit "/merchants/#{@merchant_1.id}/dashboard"
       expect(page).to have_content("Top 5 Customer")
-      expect(page).to have_content("Successful Transactions 3")
-      expect(page).to have_content("Successful Transactions 2")
-      expect(page).to have_content("Successful Transactions 1")
       expect(page).to have_content("1. Zach Last Name")
       expect(page).to have_content("2. Richard Last Name")
       expect(page).to have_content("3. Jennifer Last Name")
@@ -138,5 +124,18 @@ RSpec.describe Merchant, type: :feature do
       expect('100 pack Pens').to appear_before('50 pack Markers')
     end
 
+    it 'has link to view all merchant discounts' do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+
+      expect(page).to have_link("View All Bulk Discounts")
+    end
+
+    it 'routes to discounts page after clicking on link' do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+
+      click_link("View All Bulk Discounts")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts")
+    end
   end
 end

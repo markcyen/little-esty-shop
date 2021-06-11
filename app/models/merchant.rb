@@ -5,6 +5,7 @@ class Merchant < ApplicationRecord
   has_many :invoice_items, through: :items
   has_many :invoices, through: :invoice_items
   has_many :transactions, through: :invoices
+  has_many :discounts, dependent: :destroy
 
   def self.top_five_by_successful_transaction
     joins(:invoices, :transactions, :invoice_items)
