@@ -1,6 +1,12 @@
 <h1><%= @merchant.name %>'s Discounts Index Page</h1>
 
 <section>
+  <% @next_three_holidays.each do |holiday| %>
+    <p><%= holiday.name %>: <%= holiday.date %></p><br/>
+  <% end %>
+</section>
+
+<section>
   <table>
     <tr>
       <th>Discount</th>
