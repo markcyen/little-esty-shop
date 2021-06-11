@@ -129,5 +129,13 @@ RSpec.describe Merchant, type: :feature do
 
       expect(page).to have_link("View All Bulk Discounts")
     end
+
+    it 'routes to discounts page after clicking on link' do
+      visit "/merchants/#{@merchant_1.id}/dashboard"
+
+      click_link("View All Bulk Discounts")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts")
+    end
   end
 end
