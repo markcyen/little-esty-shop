@@ -164,11 +164,10 @@ RSpec.describe 'Merchant Items Index' do
   # Note: use the invoice date. If there are multiple days with equal number of sales, return the most recent day.
   it 'shows top day for merchant' do
     visit "/merchants/#{@merchant_1.id}/items"
-    expect(page).to have_content("Top selling date for Ice Cream was #{Date.today.strftime('%m/%d/%Y')}")
-    expect(page).to have_content("Top selling date for Applesauce was #{Date.today.strftime('%m/%d/%Y')}")
-    expect(page).to have_content("Top selling date for Waffles was #{Date.today.strftime('%m/%d/%Y')}")
-    expect(page).to have_content("Top selling date for Bread was #{Date.today.strftime('%m/%d/%Y')}")
-    # expect(page).to have_content("Top selling date for Ice Cream was #{Date.today}")
+    expect(page).to have_content("Top selling date for Ice Cream was #{(Time.now + 6.hour).strftime('%m/%d/%Y')}")
+    expect(page).to have_content("Top selling date for Applesauce was #{(Time.now + 6.hour).strftime('%m/%d/%Y')}")
+    expect(page).to have_content("Top selling date for Waffles was #{(Time.now + 6.hour).strftime('%m/%d/%Y')}")
+    expect(page).to have_content("Top selling date for Bread was #{(Time.now + 6.hour).strftime('%m/%d/%Y')}")
   end
 
 end
