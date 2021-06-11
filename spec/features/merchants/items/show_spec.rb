@@ -15,7 +15,7 @@ RSpec.describe 'Merchant Items Show Page' do
 
     expect(page).to have_content(@item_1.name)
     expect(page).to have_content(@item_1.description)
-    expect(page).to have_content(@item_1.unit_price)
+    expect(page).to have_content(@item_1.unit_price / 100)
     expect(page).to_not have_content(@item_2.name)
   end
 
@@ -43,7 +43,7 @@ RSpec.describe 'Merchant Items Show Page' do
 
     expect(find_field(:name).value).to eq('Doritos')
     expect(find_field(:description).value).to eq('Delicious')
-    expect(find_field(:unit_price).value.to_i).to eq(100)
+    expect(find_field(:unit_price).value.to_i).to eq(1)
   end
 
   it 'updates information' do
@@ -58,7 +58,7 @@ RSpec.describe 'Merchant Items Show Page' do
     click_on 'Submit'
 
     expect(current_path).to eq("/merchants/#{@merchant_1.id}/items/#{@item_1.id}")
-    expect(page).to have_content(100)
+    expect(page).to have_content("$1.00")
   end
 
   it 'shows a flash message denoting what has been updated' do
