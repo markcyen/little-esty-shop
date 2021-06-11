@@ -1,1 +1,19 @@
-<h1></h1>
+<h1><%= @merchant.name %>'s Discounts Index Page</h1>
+
+<section>
+  <table>
+    <tr>
+      <th>Discount</th>
+      <th>Percent</th>
+      <th>Item Threshold</th>
+    </tr>
+    <% counter = 1 %>
+    <% @merchant.discounts.each do |discount| %>
+    <tr>
+      <td><%= counter %></td>
+      <td><%= discount.pct_discount %></td>
+      <td><%= discount.threshold %></td>
+    </tr>
+    <% end %>
+  </table>
+</section>
