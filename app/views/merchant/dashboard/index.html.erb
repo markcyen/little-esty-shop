@@ -14,25 +14,41 @@
 <div class="fifty_fifty">
   <div>
     <h3 class="small_title_wrapper">Items Ready to Ship</h3>
-    <% @ready_to_ship_items.each do |item| %>
-      <%= item.name %> -
-      <%= link_to "Invoice-##{item.id}", "/merchants/#{@merchant.id}/invoices/#{item.id}", style: 'display:inline-block;'%> -
-      <%= Date.parse(item.created_at.to_s).strftime("%A, %B, %d, %Y")%><br/>
-    <% end %>
+    <table>
+      <tr>
+        <th>Item Name</th>
+        <th>Invoice ID</th>
+        <th>Created Date</th>
+      </tr>
+      <% @ready_to_ship_items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= link_to "Invoice-##{item.id}", "/merchants/#{@merchant.id}/invoices/#{item.id}" %></td>
+        <td><%= Date.parse(item.created_at.to_s).strftime("%A, %B, %d, %Y") %><br/></td>
+      </tr>
+      <% end %>
+    </table>
   </div>
 
   <div>
     <h3 class="small_title_wrapper">Top 5 Customers </h3>
-    <% counter = 1 %>
-    <% @top_5_customers_array.each do |top_customer| %>
-    <% @customers.each do |customer| %>
-        <% if top_customer.customer_id == customer.id %>
-          <%= counter %>. <%= customer.first_name %>
-          <%= customer.last_name %><br/>
-          <p> Successful Transactions <%= top_customer.count %></p><br/>
-          <% counter += 1 %>
+    <table>
+      <tr>
+        <th>Customer Name</th>
+        <th>Successful Transactions</th>
+      </tr>
+        <% counter = 1 %>
+        <% @top_5_customers_array.each do |top_customer| %>
+          <% @customers.each do |customer| %>
+            <% if top_customer.customer_id == customer.id %>
+      <tr>
+        <td>  <%= counter %>. <%= customer.first_name %> <%= customer.last_name %></td>
+        <td style="text-align: center">  <%= top_customer.count %></td>
+      </tr>
+              <% counter += 1 %>
+            <% end %>
+          <% end %>
         <% end %>
-      <% end %>
-    <% end %>
+    </table>
   </div>
 </div>

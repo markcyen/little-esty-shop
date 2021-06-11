@@ -18,14 +18,14 @@
 <h4>Customer Last, First: <%= @customer.last_name %>, <%= @customer.first_name %></h4>
 <h5>Created At: <%= @invoice.created_at.strftime('%A, %B %d, %Y') %></h5>
 
+<p style="font-weight: bold">Total Revenue: $<%= number_with_precision((@total_revenue.to_f / 100), precision: 2, delimiter: ',') %></p>
+
 <% @invoice_items.each do |item| %>
 <p>Name: <%= Item.where('id = ?', item.item_id).first.name %></p>
 <p>Quantity Ordered: <%= item.quantity %></p>
 <p>Price Sold For: $<%= number_with_precision((item.unit_price.to_f / 100), precision: 2, delimiter: ',') %></p>
 <%= form_with url: "/merchants/#{@merchant.id}/invoices/#{@invoice.id}?item_id=#{item.id}", method: :patch, local: true do |f| %>
-<p>Status: <%= f.select :status, ['pending','packaged', 'shipped'], selected: item.status  %></p>
-<%= f.submit 'Update Status' %>
+<p>Status: <%= f.select :status, ['pending','packaged', 'shipped'], selected: item.status  %>
+<%= f.submit 'Update Status' %></p>
 <% end %>
 <% end %>
-
-<p>Total Revenue: <%= @total_revenue %></p>

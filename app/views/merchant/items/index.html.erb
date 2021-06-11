@@ -42,7 +42,6 @@
     <% end %>
   </div>
 
-
   <div>
     <h3 class="small_title_wrapper"> Top Items </h3>
     <% counter = 1 %>
@@ -50,12 +49,11 @@
       <% @top_days_per_merchant.each do |item_day| %>
         <% if item.name == item_day.name %>
           <%= counter %>. <%= link_to "#{item.name}", "/merchants/#{@merchant.id}/items/#{item.id}" %>
-          $<%= (item.revenue.to_f) /100%><br/>
+          $<%= number_with_precision((item.revenue.to_f) / 100, precision: 2, delimiter: ',') %><br/>
           <p style= "margin: 0">Top selling date for <%= item_day.name %> was <%= Date.parse(item_day.created_at.to_s).strftime("%m/%d/%Y")%></p><br/>
         <% end %>
       <% end %>
       <% counter += 1 %>
     <% end %>
   </div>
-
 </div>

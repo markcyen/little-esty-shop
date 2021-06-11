@@ -14,5 +14,5 @@
 <h2 class="title_wrapper"><%= @item.name %></h2>
 
 <h3>Description: <%= @item.description %></h3>
-<h3>Current Selling Price: <%= @item.unit_price %></h3>
+<h3>Current Selling Price: $<%= number_with_precision((@item.unit_price.to_f) / 100, precision: 2, delimiter: ',') %></h3>
 <%= link_to "Update #{@item.name}", "/merchants/#{params[:merchant_id]}/items/#{params[:item_id]}/edit?name=#{@item.name}&&description=#{@item.description}&&unit_price=#{@item.unit_price}", method: :get, local: true %>
