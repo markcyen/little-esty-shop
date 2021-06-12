@@ -1,0 +1,12 @@
+<h1><%= @merchant.name %> Discount <%= @discount.id %></h1>
+
+<table>
+  <tr>
+    <th>Percent Discount</th>
+    <th>Quantity Threshold</th>
+  </tr>
+  <tr>
+    <td><%= @discount.pct_discount * 100 %>%</td>
+    <td><%= @discount.threshold %></td>
+  </tr>
+</table>
