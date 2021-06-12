@@ -83,7 +83,11 @@ RSpec.describe Merchant, type: :model do
     end
 
     it 'can list top 5 items' do
-      expect(@merchant_1.top_5).to eq([@item_2, @item_3, @item_4, @item_6, @item_1])
+      expect(@merchant_1.top_5.first).to eq(@item_2)
+      expect(@merchant_1.top_5.second).to eq(@item_3)
+      expect(@merchant_1.top_5.third).to eq(@item_4)
+      expect(@merchant_1.top_5.fourth).to eq(@item_6)
+      expect(@merchant_1.top_5.fifth).to eq(@item_1)
     end
 
     it 'can list ready to ship items' do
