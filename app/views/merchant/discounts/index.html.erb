@@ -6,6 +6,10 @@
   <% end %>
 </section>
 
+<div>
+  <%= link_to "Create A New Discount", "/merchants/#{@merchant.id}/discounts/new" %>
+</div>
+
 <section>
   <table>
     <tr>
@@ -15,11 +19,12 @@
     </tr>
     <% counter = 1 %>
     <% @merchant.discounts.each do |discount| %>
-    <tr>
+    <tr style="text-align: center", id="discount-<%= discount.id %>">
       <td><%= counter %></td>
-      <td><%= discount.pct_discount %></td>
+      <td><%= discount.pct_discount * 100 %>%</td>
       <td><%= discount.threshold %></td>
     </tr>
+      <% counter += 1 %>
     <% end %>
   </table>
 </section>
