@@ -1,14 +1,15 @@
 <h1><%= @merchant.name %>'s Discounts Index Page</h1>
 
 <section>
+  <h2>Next Three Upcoming Holidays</h2>
   <% @next_three_holidays.each do |holiday| %>
-    <p><%= holiday.name %>: <%= holiday.date %></p><br/>
+    <p><%= holiday.name %>: <%= holiday.date %></p>
   <% end %>
-</section>
+</section><br/>
 
 <div>
   <%= link_to "Create A New Discount", "/merchants/#{@merchant.id}/discounts/new" %>
-</div>
+</div><br/>
 
 <section>
   <table>
@@ -16,6 +17,7 @@
       <th>Discount</th>
       <th>Percent</th>
       <th>Item Threshold</th>
+      <th>Delete Link</th>
     </tr>
     <% counter = 1 %>
     <% @merchant.discounts.each do |discount| %>
@@ -23,6 +25,10 @@
       <td><%= counter %></td>
       <td><%= discount.pct_discount * 100 %>%</td>
       <td><%= discount.threshold %></td>
+      <td><%= button_to "Delete Discount",
+        "/merchants/#{@merchant.id}/discounts",
+        method: :delete, params: {delete_discount: discount},
+        form: {style: 'display:inline-block;'} %></td>
     </tr>
       <% counter += 1 %>
     <% end %>
