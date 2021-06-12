@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Merchant, type: :feature do
-  describe "Merchant Dashboard" do
+RSpec.describe Discount, type: :feature do
+  describe "Discount Index Page" do
     before :each do
       @merchant_1 = Merchant.create!(name: "Regina's Ragin' Ragdolls")
       @merchant_2 = Merchant.create!(name: "Mark's Money Makin' Markers")
@@ -10,6 +10,10 @@ RSpec.describe Merchant, type: :feature do
       @discount_1 = @merchant_1.discounts.create!(pct_discount: 0.10, threshold: 10)
       @discount_2 = @merchant_1.discounts.create!(pct_discount: 0.20, threshold: 15)
       @discount_3 = @merchant_1.discounts.create!(pct_discount: 0.30, threshold: 20)
+
+      @discount_4 = @merchant_2.discounts.create!(pct_discount: 0.05, threshold: 5)
+      @discount_5 = @merchant_2.discounts.create!(pct_discount: 0.15, threshold: 10)
+      @discount_6 = @merchant_2.discounts.create!(pct_discount: 0.25, threshold: 20)
 
       @item_1 = @merchant_1.items.create!(name: "Twinkies", description: "Yummy", unit_price: 400)
       @item_2 = @merchant_1.items.create!(name: "Applesauce", description: "Yummy in my tummy", unit_price: 340)
@@ -75,12 +79,20 @@ RSpec.describe Merchant, type: :feature do
     it 'lists all discounts on index page' do
       visit "/merchants/#{@merchant_1.id}/discounts"
 
-      expect(page).to have_content(@discount_1.pct_discount)
-      expect(page).to have_content(@discount_2.pct_discount)
-      expect(page).to have_content(@discount_3.pct_discount)
-      expect(page).to have_content(@discount_1.threshold)
-      expect(page).to have_content(@discount_2.threshold)
-      expect(page).to have_content(@discount_3.threshold)
+      within("#discount-#{@discount_1.id}") do
+        expect(page).to have_content(@discount_1.pct_discount * 100)
+        expect(page).to have_content(@discount_1.threshold)
+      end
+
+      within("#discount-#{@discount_2.id}") do
+        expect(page).to have_content(@discount_2.pct_discount * 100)
+        expect(page).to have_content(@discount_2.threshold)
+      end
+
+      within("#discount-#{@discount_3.id}") do
+        expect(page).to have_content(@discount_3.pct_discount * 100)
+        expect(page).to have_content(@discount_3.threshold)
+      end
     end
 
     it 'lists three upcoming holidays on page' do
@@ -91,6 +103,50 @@ RSpec.describe Merchant, type: :feature do
       expect(page).to have_content("#{next_three_holidays[0].name}: #{next_three_holidays[0].date}")
       expect(page).to have_content("#{next_three_holidays[1].name}: #{next_three_holidays[1].date}")
       expect(page).to have_content("#{next_three_holidays[2].name}: #{next_three_holidays[2].date}")
+    end
+
+    it 'has link to create a new discount' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
+
+      expect(page).to have_link("Create A New Discount")
+    end
+
+    it 'can add a new bulk discount after clicking on link' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
+
+      expect(page).to have_no_content('40.0%')
+      expect(page).to have_no_content('50')
+
+      click_link("Create A New Discount")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/new")
+
+      fill_in(:pct_discount, with: 0.40)
+      fill_in(:threshold, with: 50)
+      click_on("Submit")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts")
+      expect(page).to have_content('40.0%')
+      expect(page).to have_content('50')
+    end
+
+    it 'displays flash notice if bulk discount is already there' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
+
+      within("#discount-#{@discount_1.id}") do
+        expect(page).to have_content(@discount_1.pct_discount * 100)
+        expect(page).to have_content(@discount_1.threshold)
+      end
+
+      click_link("Create A New Discount")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/new")
+
+      fill_in(:pct_discount, with: 0.10)
+      fill_in(:threshold, with: 10)
+      click_on("Submit")
+
+      expect(page).to have_content('You already have this bulk discount. Please fill in again.')
     end
   end
 end
