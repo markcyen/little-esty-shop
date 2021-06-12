@@ -148,5 +148,39 @@ RSpec.describe Discount, type: :feature do
 
       expect(page).to have_content('You already have this bulk discount. Please fill in again.')
     end
+
+    it 'displays a link to delete' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
+
+      within("#discount-#{@discount_1.id}") do
+        expect(page).to have_button("Delete Discount")
+      end
+
+      within("#discount-#{@discount_2.id}") do
+        expect(page).to have_button("Delete Discount")
+      end
+
+      within("#discount-#{@discount_3.id}") do
+        expect(page).to have_button("Delete Discount")
+      end
+    end
+
+    it 'deletes a discount after clicking on button' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
+
+      within("#discount-#{@discount_2.id}") do
+        expect(page).to have_content(@discount_2.pct_discount * 100)
+        expect(page).to have_content(@discount_2.threshold)
+        expect(page).to have_button("Delete Discount")
+      end
+
+      within("#discount-#{@discount_2.id}") do
+        click_button("Delete Discount")
+      end
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts")
+      expect(page).to_not have_content(@discount_2.pct_discount * 100)
+      expect(page).to_not have_content(@discount_2.threshold)
+    end
   end
 end
