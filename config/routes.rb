@@ -24,5 +24,7 @@ Rails.application.routes.draw do
   patch '/merchants/:merchant_id/invoices/:invoice_id', to: 'merchant/invoices#update_status'
   patch '/merchants/:merchant_id/items/:item_id', to: 'merchant/items#update'
 
-  get 'merchants/:merchant_id/discounts', to: 'merchant/discounts#index'
+  get '/merchants/:merchant_id/discounts', to: 'merchant/discounts#index'
+  get '/merchants/:merchant_id/discounts/new', to: 'merchant/discounts#new'
+  post '/merchants/:merchant_id/discounts', to: 'merchant/discounts#create'
 end
