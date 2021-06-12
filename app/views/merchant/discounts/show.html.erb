@@ -4,9 +4,11 @@
   <tr>
     <th>Percent Discount</th>
     <th>Quantity Threshold</th>
+    <th>Edit</th>
   </tr>
   <tr>
     <td><%= @discount.pct_discount * 100 %>%</td>
     <td><%= @discount.threshold %></td>
+    <td><%= link_to "Edit Discount", "/merchants/#{@merchant.id}/discounts/#{@discount.id}/edit", method: :get, id: "edit_#{@discount.id}" %></td>
   </tr>
 </table>
