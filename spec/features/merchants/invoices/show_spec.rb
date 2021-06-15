@@ -1,68 +1,195 @@
 require 'rails_helper'
 
 RSpec.describe 'Merchant Invoice Show Page' do
-  before :each do
-    @merchant_1 = Merchant.create!(name: 'Roald')
-    @merchant_2 = Merchant.create!(name: 'Big Rick')
+  describe 'displays details of merchant invoice show page (group project)' do
+    before :each do
+      @merchant_1 = Merchant.create!(name: 'Roald')
+      @merchant_2 = Merchant.create!(name: 'Big Rick')
 
-    @customer_1 = Customer.create!(first_name: 'Not', last_name: 'Roald')
-    @customer_2 = Customer.create!(first_name: 'Big', last_name: 'Rick')
-    @invoice_1 = @customer_1.invoices.create!(status: 1)
-    @invoice_2 = @customer_2.invoices.create!(status: 1)
-    @item_1 = @merchant_1.items.create!(name: 'Cactus Juice', description: 'Its the quechiest', unit_price: 100)
-    @item_2 = @merchant_1.items.create!(name: 'Other Item', description: 'Not so quenchy', unit_price: 234)
-    @item_3 = @merchant_1.items.create!(name: 'Not Listed', description: 'Undefined', unit_price: 0)
-    @item_4 = @merchant_2.items.create!(name: 'Not Listed', description: 'Undefined', unit_price: 0)
-    @invoice_items_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 10, unit_price: 1000, status: 0)
-    @invoice_items_2 = InvoiceItem.create!(item_id: @item_2.id, invoice_id: @invoice_1.id, quantity: 10, unit_price: 2340, status: 1)
-    @invoice_items_2 = InvoiceItem.create!(item_id: @item_4.id, invoice_id: @invoice_2.id, quantity: 10, unit_price: 2340, status: 1)
+      @customer_1 = Customer.create!(first_name: 'Not', last_name: 'Roald')
+      @customer_2 = Customer.create!(first_name: 'Big', last_name: 'Rick')
+      @invoice_1 = @customer_1.invoices.create!(status: 1)
+      @invoice_2 = @customer_2.invoices.create!(status: 1)
+      @item_1 = @merchant_1.items.create!(name: 'Cactus Juice', description: 'Its the quechiest', unit_price: 100)
+      @item_2 = @merchant_1.items.create!(name: 'Other Item', description: 'Not so quenchy', unit_price: 234)
+      @item_3 = @merchant_1.items.create!(name: 'Not Listed', description: 'Undefined', unit_price: 0)
+      @item_4 = @merchant_2.items.create!(name: 'Not Listed', description: 'Undefined', unit_price: 0)
+      @invoice_items_1 = InvoiceItem.create!(item_id: @item_1.id, invoice_id: @invoice_1.id, quantity: 10, unit_price: 1000, status: 0)
+      @invoice_items_2 = InvoiceItem.create!(item_id: @item_2.id, invoice_id: @invoice_1.id, quantity: 10, unit_price: 2340, status: 1)
+      @invoice_items_2 = InvoiceItem.create!(item_id: @item_4.id, invoice_id: @invoice_2.id, quantity: 10, unit_price: 2340, status: 1)
 
-    visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
+      visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
+    end
+
+    it 'shows the invoice show page' do
+      expect(page).to have_content(@invoice_1.id)
+    end
+
+    it 'shows invoice status' do
+      expect(page).to have_content(@invoice_1.status)
+    end
+
+    it 'shows the created at in date format' do
+      expect(page).to have_content((Time.now + 6.hour).strftime('%A, %B %d, %Y'))
+    end
+
+    it 'shows the customer first and last name' do
+      expect(page).to have_content('Not')
+      expect(page).to have_content('Roald')
+    end
+
+    it 'shows all item names' do
+      expect(page).to have_content(@item_1.name)
+      expect(page).to have_content(@item_2.name)
+      expect(page).to_not have_content(@item_3.name)
+    end
+
+    it 'shows quantity ordered' do
+      expect(page).to have_content(@invoice_items_1.quantity)
+      expect(page).to have_content(@invoice_items_2.quantity)
+    end
+
+    it 'shows the unit price' do
+      expect(page).to have_content(@invoice_items_1.unit_price.to_f / 100)
+      expect(page).to have_content(@invoice_items_2.unit_price.to_f / 100)
+    end
+
+    it 'shows the status' do
+      visit "/merchants/#{@merchant_2.id}/invoices/#{@invoice_2.id}"
+
+      expect(page).to have_content('pending')
+
+      page.select('shipped', from: :status)
+      click_button('Update Status')
+
+      expect(current_path).to eq("/merchants/#{@merchant_2.id}/invoices/#{@invoice_2.id}")
+      expect(page).to have_content('shipped')
+    end
+
+    it 'shows total revenue' do
+      expect(page).to have_content("$33.40")
+    end
   end
 
-  it 'shows the invoice show page' do
-    expect(page).to have_content(@invoice_1.id)
-  end
+  describe 'displays additional details of merchant invoice show page (solo project)' do
+    before :each do
+      @merchant_1 = Merchant.create!(name: "Regina's Ragin' Ragdolls")
+      @merchant_2 = Merchant.create!(name: "Mark's Money Makin' Markers")
 
-  it 'shows invoice status' do
-    expect(page).to have_content(@invoice_1.status)
-  end
+      @discount_1 = @merchant_1.discounts.create!(pct_discount: 0.10, threshold: 25)
+      @discount_2 = @merchant_1.discounts.create!(pct_discount: 0.20, threshold: 50)
 
-  it 'shows the created at in date format' do
-    expect(page).to have_content((Time.now + 6.hour).strftime('%A, %B %d, %Y'))
-  end
+      @item_1 = @merchant_1.items.create!(name: "Twinkies", description: "Yummy", unit_price: 400)
+      @item_2 = @merchant_1.items.create!(name: "Applesauce", description: "Yummy in my tummy", unit_price: 340)
+      @item_3 = @merchant_2.items.create!(name: "Milk", description: "Delicious", unit_price: 400)
+      @item_4 = @merchant_2.items.create!(name: "Bread", description: "So soft", unit_price: 340)
+      # @item_5 = @merchant_1.items.create!(name: "Ice Cream", description: "So smooth", unit_price: 293)
+      # @item_6 = @merchant_1.items.create!(name: "Waffles", description: "So moist", unit_price: 938)
+      # @item_7 = @merchant_2.items.create!(name: "Desk", description: "So square", unit_price: 467)
+      # @item_8 = @merchant_2.items.create!(name: "Desk Chair", description: "So comfy", unit_price: 500)
+      # @item_9 = @merchant_2.items.create!(name: "100 pack Pens", description: "So useful", unit_price: 824)
+      # @item_10 = @merchant_2.items.create!(name: "Printer Paper", description: "Who uses this?", unit_price: 1203)
+      # @item_11 = @merchant_2.items.create!(name: "50 Pack Markers", description: "Draw", unit_price: 534)
 
-  it 'shows the customer first and last name' do
-    expect(page).to have_content('Not')
-    expect(page).to have_content('Roald')
-  end
+      @customer_1 = Customer.create!(first_name: "Rita", last_name: "Last Name")
+      # @customer_2 = Customer.create!(first_name: "Jennifer", last_name: "Last Name")
+      # @customer_3 = Customer.create!(first_name: "Mark", last_name: "Last Name")
+      # @customer_4 = Customer.create!(first_name: "Caleb", last_name: "Last Name")
+      # @customer_5 = Customer.create!(first_name: "Richard", last_name: "Last Name")
+      # @customer_6 = Customer.create!(first_name: "Zach", last_name: "Last Name")
 
-  it 'shows all item names' do
-    expect(page).to have_content(@item_1.name)
-    expect(page).to have_content(@item_2.name)
-    expect(page).to_not have_content(@item_3.name)
-  end
+      @invoice_1 = Invoice.create!(customer_id: @customer_1.id, status: 0)
+      @invoice_2 = Invoice.create!(customer_id: @customer_1.id, status: 1)
+      @invoice_3 = Invoice.create!(customer_id: @customer_1.id, status: 1)
+      @invoice_4 = Invoice.create!(customer_id: @customer_1.id, status: 1)
+      @invoice_5 = Invoice.create!(customer_id: @customer_1.id, status: 0)
+      # @invoice_6 = Invoice.create!(customer_id: @customer_6.id, status: 0)
+      # @invoice_7 = Invoice.create!(customer_id: @customer_2.id, status: 2)
+      # @invoice_8 = Invoice.create!(customer_id: @customer_3.id, status: 1)
+      # @invoice_9 = Invoice.create!(customer_id: @customer_4.id, status: 1)
+      # @invoice_10 = Invoice.create!(customer_id: @customer_5.id, status: 0)
+      # @invoice_11 = Invoice.create!(customer_id: @customer_6.id, status: 2)
 
-  it 'shows quantity ordered' do
-    expect(page).to have_content(@invoice_items_1.quantity)
-    expect(page).to have_content(@invoice_items_2.quantity)
-  end
+      # Scenario 1
+      InvoiceItem.create!(item: @item_1, invoice: @invoice_1, quantity: 24, unit_price: 400, status: 1)
+      InvoiceItem.create!(item: @item_2, invoice: @invoice_1, quantity: 19, unit_price: 340, status: 0)
 
-  it 'shows the unit price' do
-    expect(page).to have_content(@invoice_items_1.unit_price.to_f / 100)
-    expect(page).to have_content(@invoice_items_2.unit_price.to_f / 100)
-  end
+      # Scenario 2
+      InvoiceItem.create!(item: @item_1, invoice: @invoice_2, quantity: 26, unit_price: 400, status: 1)
+      InvoiceItem.create!(item: @item_2, invoice: @invoice_2, quantity: 19, unit_price: 340, status: 1)
 
-  it 'shows the status' do
-    visit "/merchants/#{@merchant_2.id}/invoices/#{@invoice_2.id}"
-    expect(page).to have_content('pending')
-    page.select('shipped', from: :status)
-    click_button('Update Status')
-    expect(current_path).to eq("/merchants/#{@merchant_2.id}/invoices/#{@invoice_2.id}")
-    expect(page).to have_content('shipped')
-  end
+      # Scenario 3
+      InvoiceItem.create!(item: @item_1, invoice: @invoice_3, quantity: 25, unit_price: 400, status: 1)
+      InvoiceItem.create!(item: @item_2, invoice: @invoice_3, quantity: 50, unit_price: 340, status: 1)
 
-  it 'shows total revenue' do
-    expect(page).to have_content("$33.40")
+      # Scenario 4
+      InvoiceItem.create!(item: @item_1, invoice: @invoice_4, quantity: 51, unit_price: 400, status: 1)
+      InvoiceItem.create!(item: @item_2, invoice: @invoice_4, quantity: 50, unit_price: 340, status: 1)
+
+      # Scenario 5
+      InvoiceItem.create!(item: @item_1, invoice: @invoice_5, quantity: 25, unit_price: 400, status: 1)
+      InvoiceItem.create!(item: @item_2, invoice: @invoice_5, quantity: 50, unit_price: 340, status: 1)
+      InvoiceItem.create!(item: @item_3, invoice: @invoice_5, quantity: 25, unit_price: 400, status: 1)
+      InvoiceItem.create!(item: @item_4, invoice: @invoice_5, quantity: 50, unit_price: 340, status: 1)
+
+      Transaction.create!(invoice_id: @invoice_1.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      Transaction.create!(invoice_id: @invoice_2.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      Transaction.create!(invoice_id: @invoice_3.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      Transaction.create!(invoice_id: @invoice_4.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      Transaction.create!(invoice_id: @invoice_5.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      # Transaction.create!(invoice_id: @invoice_5.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      # Transaction.create!(invoice_id: @invoice_6.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      # Transaction.create!(invoice_id: @invoice_7.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      # Transaction.create!(invoice_id: @invoice_8.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      # Transaction.create!(invoice_id: @invoice_9.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      # Transaction.create!(invoice_id: @invoice_10.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+      # Transaction.create!(invoice_id: @invoice_11.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
+    end
+
+    describe '1. one bulk discount but quantity does not meet threshold' do
+      it 'applies no bulk discount since quantity does not meet threshold' do
+        visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_1.id}"
+
+        expect(page).to have_content('Total Revenue with Bulk Discount: $160.60')
+        expect(page).to have_content('Note: If total revenue and total revenue with bulk discount are the same, then there were no bulk discount applied.')
+      end
+    end
+
+    describe '2. one bulk discount and only applies to one item' do
+      it 'applies one bulk discount to one item only' do
+        visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_2.id}"
+
+        expect(page).to have_content('Total Revenue with Bulk Discount: $158.20')
+      end
+    end
+
+    describe '3. two bulk discounts and two separate items' do
+      it 'applies two bulk discounts on two items separately' do
+        visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_3.id}"
+
+        expect(page).to have_content('Total Revenue with Bulk Discount: $226.00')
+      end
+    end
+
+    describe '4. two bulk discounts and two items applied with the largest discount' do
+      it 'applies the largest bulk discount to two items since they both meet the highest quantity threshold' do
+        visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_4.id}"
+
+        expect(page).to have_content('Total Revenue with Bulk Discount: $299.20')
+      end
+    end
+
+    describe '5. one merchant with discounts and the other with none' do
+      it 'only applies the discounts to one merchant and not the other since the other does not have any discounts' do
+        visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_5.id}"
+
+        expect(page).to have_content('Total Revenue with Bulk Discount: $226.00')
+
+        visit "/merchants/#{@merchant_2.id}/invoices/#{@invoice_5.id}"
+
+        expect(page).to have_content('Total Revenue with Bulk Discount: $270.00')
+      end
+    end
+
   end
 end
