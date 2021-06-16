@@ -25,8 +25,8 @@
           <% end %>
         </div>
         <h4>Created on: <%= @invoice.created_at.strftime('%A, %B %d, %Y') %></h4>
-        <h4>Expected Invoice Revenue: $<%= number_with_precision(@invoice_revenue, precision: 2, delimiter: ',') %></h4>
-        <h4>Discounted Invoice Revenue: $<%= number_with_precision(@admin_discounted_revenue, precision: 2, delimiter: ',') %></h4>
+        <h4 style="font-weight: bold;">Expected Invoice Revenue: $<%= number_with_precision(@invoice_revenue, precision: 2, delimiter: ',') %></h4>
+        <h4 style="font-weight: bold; color: red;">Discounted Invoice Revenue: $<%= number_with_precision(@admin_discounted_revenue, precision: 2, delimiter: ',') %></h4>
       </div>
       <div>
         <h4>Customer Info: <%= @customer.first_name %> <%= @customer.last_name %></h4>

@@ -18,8 +18,8 @@
 <h4>Customer Last, First: <%= @customer.last_name %>, <%= @customer.first_name %></h4>
 <h5>Created On: <%= @invoice.created_at.strftime('%A, %B %d, %Y') %></h5>
 
-<p style="font-weight: bold">Total Revenue: $<%= number_with_precision((@total_revenue.to_f / 100), precision: 2, delimiter: ',') %></p>
-<p>Total Revenue with Bulk Discount: $<%= number_with_precision(@total_discounted_revenue, precision: 2, delimiter: ',') %></p>
+<p style="font-weight: bold;">Total Revenue: $<%= number_with_precision((@total_revenue.to_f / 100), precision: 2, delimiter: ',') %></p>
+<p style="font-weight: bold; color: red">Total Revenue with Bulk Discount: $<%= number_with_precision(@total_discounted_revenue, precision: 2, delimiter: ',') %></p>
 <p>Note: If total revenue and total revenue with bulk discount are the same, then there were no bulk discount applied.</p>
 
 <table>
