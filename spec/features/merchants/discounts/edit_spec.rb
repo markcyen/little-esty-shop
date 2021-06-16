@@ -76,11 +76,34 @@ RSpec.describe Discount, type: :feature do
       Transaction.create!(invoice_id: @invoice_11.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
     end
 
-    it 'shows the bulk discount quantity threshold and percentage discount' do
+    it 'has link to edit form and takes to the edit page when clicked on' do
       visit "/merchants/#{@merchant_1.id}/discounts/#{@discount_1.id}"
 
-      expect(page).to have_content(@discount_1.pct_discount * 100)
-      expect(page).to have_content(@discount_1.threshold)
+      expect(page).to have_link("Edit Discount")
+
+      click_link("Edit Discount")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/#{@discount_1.id}/edit")
+    end
+
+    it 'edits a discount percent and threshold' do
+      visit "/merchants/#{@merchant_1.id}/discounts/#{@discount_2.id}"
+
+      expect(page).to have_content("20.0%")
+      expect(page).to have_content("15")
+      click_link("Edit Discount")
+
+      expect(find_field(:pct_discount).value).to eq("0.2")
+      expect(find_field(:threshold).value).to eq("15")
+
+      fill_in(:pct_discount, with: 0.15)
+      fill_in(:threshold, with: 20)
+      click_button("Submit")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/#{@discount_2.id}")
+
+      expect(page).to have_content("15.0%")
+      expect(page).to have_content("20")
     end
   end
 end

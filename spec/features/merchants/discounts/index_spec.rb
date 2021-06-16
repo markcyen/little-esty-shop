@@ -112,44 +112,6 @@ RSpec.describe Discount, type: :feature do
       expect(page).to have_link("Create A New Discount")
     end
 
-    it 'can add a new bulk discount after clicking on link' do
-      visit "/merchants/#{@merchant_1.id}/discounts"
-
-      expect(page).to have_no_content('40.0%')
-      expect(page).to have_no_content('50')
-
-      click_link("Create A New Discount")
-
-      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/new")
-
-      fill_in(:pct_discount, with: 0.40)
-      fill_in(:threshold, with: 50)
-      click_on("Submit")
-
-      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts")
-      expect(page).to have_content('40.0%')
-      expect(page).to have_content('50')
-    end
-
-    it 'displays flash notice if bulk discount is already there' do
-      visit "/merchants/#{@merchant_1.id}/discounts"
-
-      within("#discount-#{@discount_1.id}") do
-        expect(page).to have_content(@discount_1.pct_discount * 100)
-        expect(page).to have_content(@discount_1.threshold)
-      end
-
-      click_link("Create A New Discount")
-
-      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/new")
-
-      fill_in(:pct_discount, with: 0.10)
-      fill_in(:threshold, with: 10)
-      click_on("Submit")
-
-      expect(page).to have_content('You already have this bulk discount. Please fill in again.')
-    end
-
     it 'displays a link to delete' do
       visit "/merchants/#{@merchant_1.id}/discounts"
 

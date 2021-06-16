@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Discount, type: :feature do
-  describe "Discount Show Page" do
+  describe "Discount New Page" do
     before :each do
       @merchant_1 = Merchant.create!(name: "Regina's Ragin' Ragdolls")
       @merchant_2 = Merchant.create!(name: "Mark's Money Makin' Markers")
@@ -76,11 +76,42 @@ RSpec.describe Discount, type: :feature do
       Transaction.create!(invoice_id: @invoice_11.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
     end
 
-    it 'shows the bulk discount quantity threshold and percentage discount' do
-      visit "/merchants/#{@merchant_1.id}/discounts/#{@discount_1.id}"
+    it 'can add a new bulk discount after clicking on link' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
 
-      expect(page).to have_content(@discount_1.pct_discount * 100)
-      expect(page).to have_content(@discount_1.threshold)
+      expect(page).to have_no_content('40.0%')
+      expect(page).to have_no_content('50')
+
+      click_link("Create A New Discount")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/new")
+
+      fill_in(:pct_discount, with: 0.40)
+      fill_in(:threshold, with: 50)
+      click_on("Submit")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts")
+      expect(page).to have_content('40.0%')
+      expect(page).to have_content('50')
+    end
+
+    it 'displays flash notice if bulk discount is already there' do
+      visit "/merchants/#{@merchant_1.id}/discounts"
+
+      within("#discount-#{@discount_1.id}") do
+        expect(page).to have_content(@discount_1.pct_discount * 100)
+        expect(page).to have_content(@discount_1.threshold)
+      end
+
+      click_link("Create A New Discount")
+
+      expect(current_path).to eq("/merchants/#{@merchant_1.id}/discounts/new")
+
+      fill_in(:pct_discount, with: 0.10)
+      fill_in(:threshold, with: 10)
+      click_on("Submit")
+
+      expect(page).to have_content('You already have this bulk discount. Please fill in again.')
     end
   end
 end
