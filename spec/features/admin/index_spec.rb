@@ -28,6 +28,9 @@ RSpec.describe 'Admin Dashboard' do
       @transaction_1 = @invoice_1.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_2 = @invoice_1.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_3 = @invoice_1.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_32 = @invoice_1.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_33 = @invoice_1.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_34 = @invoice_1.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
 
       @customer_2  = Customer.create!(first_name: 'Jerry', last_name: 'Jones')
       @invoice_2 = @customer_2.invoices.create!(status: 1)
@@ -41,6 +44,10 @@ RSpec.describe 'Admin Dashboard' do
       @transaction_7 = @invoice_4.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_8 = @invoice_4.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_9 = @invoice_4.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_20 = @invoice_4.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_21 = @invoice_4.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_22 = @invoice_4.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_23 = @invoice_4.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
 
       @customer_4  = Customer.create!(first_name: 'Sammy', last_name: 'Smith')
       @invoice_5 = @customer_4.invoices.create!(status: 1)
@@ -51,23 +58,42 @@ RSpec.describe 'Admin Dashboard' do
       @transaction_11 = @invoice_6.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_12 = @invoice_6.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_13 = @invoice_6.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_28 = @invoice_6.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_29 = @invoice_6.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_30 = @invoice_6.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_31 = @invoice_6.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
 
       @customer_6  = Customer.create!(first_name: 'Robin', last_name: 'Ringer')
       @invoice_7 = @customer_6.invoices.create!(status: 1)
       @transaction_14 = @invoice_7.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_15 = @invoice_7.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_35 = @invoice_7.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_36 = @invoice_7.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_37 = @invoice_7.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
 
       @customer_7  = Customer.create!(first_name: 'Yule', last_name: 'Young')
       @invoice_8 = @customer_7.invoices.create!(status: 1)
       @transaction_16 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_17 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
       @transaction_18 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_19 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_24 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_25 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_26 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
+      @transaction_27 = @invoice_8.transactions.create!(credit_card_number: '1234567890987654', credit_card_expiration_date: '1220', result: 0)
 
       visit('/admin')
 
-      expect(@customer_3.first_name).to appear_before(@customer_1.first_name)
-      expect(@customer_3.first_name).to appear_before(@customer_5.first_name)
-      expect(@customer_7.first_name).to appear_before(@customer_6.first_name)
+      ['Yule Young', 'Derek Davis', 'Tanya Tiger', 'Robin Ringer'].each do |customer|
+        expect('Adam Asop').to appear_before(customer)
+      end
+      ['Derek Davis', 'Tanya Tiger', 'Robin Ringer'].each do |customer|
+        expect('Yule Young').to appear_before(customer)
+      end
+      ['Tanya Tiger', 'Robin Ringer'].each do |customer|
+        expect('Derek Davis').to appear_before(customer)
+      end
+      expect('Tanya Tiger').to appear_before('Robin Ringer')
       expect(page).to_not have_content(@customer_2.first_name)
       expect(page).to_not have_content(@customer_4.first_name)
     end
