@@ -14,7 +14,7 @@ class Merchant::ItemsController < ApplicationController
     end
     @top_items = @merchant.top_5
     @top_days_for_items = @merchant.top_days
-    @top_days_per_merchant = @merchant.top_days_per_merchanct
+    @top_days_per_merchant = @merchant.top_days_per_merchant
   end
 
   def new

@@ -34,7 +34,7 @@ class Merchant < ApplicationRecord
       .limit(9)
   end
 
-  def top_days_per_merchanct
+  def top_days_per_merchant
     top_5.map do |item|
       top_days.find do |day|
         if day.name == item.name

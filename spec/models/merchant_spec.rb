@@ -62,11 +62,11 @@ RSpec.describe Merchant, type: :model do
 
   describe "validations" do
     it {should validate_presence_of :name}
-    # it {should validate_presence_of :status}
-    #WIP - unsure of where to input
   end
   describe "relationships" do
-    it {should have_many  :items}
+    [:items, :invoice_items, :invoices, :transactions, :discounts].each do |relationship|
+      it {should have_many relationship}
+    end
   end
 
   describe 'methods' do
@@ -80,6 +80,11 @@ RSpec.describe Merchant, type: :model do
 
     it 'can list top days' do
       expect(@merchant_1.top_days.length).to eq(8)
+    end
+
+    it 'can list top days per merchant' do
+      top_day_for_merchant_1 = @merchant_1.top_days_per_merchant.first.created_at.strftime("%m/%d/%Y")
+      expect(top_day_for_merchant_1).to eq((Time.now + 6.hour).strftime("%m/%d/%Y"))
     end
 
     it 'can list top 5 items' do

@@ -30,11 +30,11 @@ RSpec.describe Invoice, type: :model do
       @merchant_5 = Merchant.create!(name: 'Linda', status: 'enable')
       @merchant_6 = Merchant.create!(name: 'Roswell',status: 'disable')
 
-      @trasaction_1 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_1.id)
-      @trasaction_2 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_2.id)
-      @trasaction_3 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_3.id)
-      @trasaction_4 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_4.id)
-      @trasaction_5 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_5.id)
+      @transaction_1 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_1.id)
+      @transaction_2 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_2.id)
+      @transaction_3 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_3.id)
+      @transaction_4 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_4.id)
+      @transaction_5 = Transaction.create!(credit_card_number: '1928333429810', credit_card_expiration_date: '1121', result: 0, invoice_id: @invoice_5.id)
 
       @item_1 = @merchant_1.items.create!(name: 'Funyuns', description: 'Tasty', unit_price: 100)
       @item_2 = @merchant_2.items.create!(name: 'Doritos', description: 'Delicious', unit_price: 93)
