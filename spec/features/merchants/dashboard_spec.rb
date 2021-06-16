@@ -7,18 +7,12 @@ RSpec.describe Merchant, type: :feature do
       @merchant_2 = Merchant.create!(name: "Mark's Money Makin' Markers")
       @merchant_3 = Merchant.create!(name: "Caleb's California Catapults")
 
-      @customer_1 = Customer.create!(first_name: "Me", last_name: "Last Name")
-
       @item_1 = @merchant_1.items.create!(name: "Twinkies", description: "Yummy", unit_price: 400)
-
-      @customer_1 = Customer.create!(first_name: "Me", last_name: "Last Name")
-
       @item_2 = @merchant_1.items.create!(name: "Applesauce", description: "Yummy", unit_price: 400)
       @item_3 = @merchant_1.items.create!(name: "Milk", description: "Yummy", unit_price: 400)
       @item_4 = @merchant_1.items.create!(name: "Bread", description: "Yummy", unit_price: 400)
       @item_5 = @merchant_1.items.create!(name: "Ice Cream", description: "Yummy", unit_price: 400)
       @item_6 = @merchant_1.items.create!(name: "Waffles", description: "Yummy", unit_price: 400)
-
       @item_7 = @merchant_2.items.create!(name: "Desk", description: "Yummy", unit_price: 400)
       @item_8 = @merchant_2.items.create!(name: "Desk Chair", description: "Yummy", unit_price: 400)
       @item_9 = @merchant_2.items.create!(name: "100 pack Pens", description: "Yummy", unit_price: 400)
@@ -110,6 +104,7 @@ RSpec.describe Merchant, type: :feature do
 
     it "should list top 5 customers per merchant" do
       visit "/merchants/#{@merchant_1.id}/dashboard"
+
       expect(page).to have_content("Top 5 Customer")
       expect(page).to have_content("1. Zach Last Name")
       expect(page).to have_content("2. Richard Last Name")

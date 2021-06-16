@@ -12,5 +12,3 @@ class Customer < ApplicationRecord
   end
 
 end
-
-# Customer.joins(invoices: :transactions).group(:id).where('transactions.result = ?', 0).select('customers.first_name, customers.last_name, count(transactions.id) as number_of_transactions').order(number_of_transactions: :desc).limit(5)

@@ -4,7 +4,6 @@ class Merchant::InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:invoice_id])
     @items = @invoice.items
     @customer = Customer.where('id = ?', @invoice.customer_id).first
-    # binding.pry
     @invoice_items = InvoiceItem.joins(item: :merchant).where('invoice_id = ?', @invoice.id).where('items.merchant_id = ?', @merchant.id)
     @total_revenue = @invoice_items.sum do |invoice_item|
       invoice_item.quantity * invoice_item.unit_price
@@ -29,7 +28,6 @@ class Merchant::InvoicesController < ApplicationController
     @merchant = Merchant.find(params[:merchant_id])
     @items = @merchant.items
     @item_ids = Merchant.find(params[:merchant_id]).items.pluck(:id)
-    # @invoices = Invoice.joins(:invoice_items).where("invoice_items.item_id = ?", @item_ids)
     @invoices = @merchant.invoices.uniq
   end
 
