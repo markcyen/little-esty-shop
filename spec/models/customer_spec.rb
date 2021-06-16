@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Customer, type: :model do
   describe "validations" do
-    it {should validate_presence_of :first_name}
-    it {should validate_presence_of :last_name}
+    [:first_name, :last_name].each do |attribute|
+      it {should validate_presence_of(attribute)}
+    end
   end
 
   describe "relationships" do

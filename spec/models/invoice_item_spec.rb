@@ -2,17 +2,23 @@ require 'rails_helper'
 
 RSpec.describe InvoiceItem, type: :model do
   describe "validations" do
-    it {should validate_presence_of :quantity}
-    it {should validate_numericality_of :quantity}
-    it {should validate_presence_of :unit_price}
-    it {should validate_numericality_of :unit_price}
-    it {should validate_presence_of :status}
+    [:quantity, :unit_price, :status].each do |attribute|
+      it {should validate_presence_of(attribute)}
+    end
+
+    [:quantity, :unit_price].each do |attribute|
+      it {should validate_numericality_of(attribute)}
+    end
   end
 
   describe "relationships" do
-    it {should belong_to :invoice}
-    it {should belong_to :item}
+    [:invoice, :item].each do |attribute|
+      it {should belong_to(attribute)}
+    end
+    it {should have_one(:merchant).through(:item)}
+    it {should have_many(:discounts).through(:merchant)}
     it {should have_many(:transactions).through(:invoice)}
+    it {should have_one(:customer).through(:invoice)}
   end
 
   describe 'methods from group project' do
