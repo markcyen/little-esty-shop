@@ -3,7 +3,7 @@
 <section>
   <h2>Next Three Upcoming Holidays</h2>
   <% @next_three_holidays.each do |holiday| %>
-    <p><%= holiday.name %>: <%= holiday.date %></p>
+    <p><%= holiday[:localName] %>: <%= holiday[:date] %></p>
   <% end %>
 </section><br/>
 

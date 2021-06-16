@@ -98,11 +98,12 @@ RSpec.describe Discount, type: :feature do
     it 'lists three upcoming holidays on page' do
       visit "/merchants/#{@merchant_1.id}/discounts"
 
-      next_three_holidays = NagerAPI.upcoming_holidays
+      holiday = Holiday.new
+      next_three_holidays = holiday.upcoming_holidays
 
-      expect(page).to have_content("#{next_three_holidays[0].name}: #{next_three_holidays[0].date}")
-      expect(page).to have_content("#{next_three_holidays[1].name}: #{next_three_holidays[1].date}")
-      expect(page).to have_content("#{next_three_holidays[2].name}: #{next_three_holidays[2].date}")
+      expect(page).to have_content("#{next_three_holidays[0][:localName]}: #{next_three_holidays[0][:date]}")
+      expect(page).to have_content("#{next_three_holidays[1][:localName]}: #{next_three_holidays[1][:date]}")
+      expect(page).to have_content("#{next_three_holidays[2][:localName]}: #{next_three_holidays[2][:date]}")
     end
 
     it 'has link to create a new discount' do

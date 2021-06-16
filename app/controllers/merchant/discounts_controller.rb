@@ -1,7 +1,8 @@
 class Merchant::DiscountsController < ApplicationController
   def index
     @merchant = Merchant.find(params[:merchant_id])
-    @next_three_holidays = NagerAPI.upcoming_holidays
+    @holidays = Holiday.new
+    @next_three_holidays = @holidays.upcoming_holidays
   end
 
   def show
