@@ -65,7 +65,6 @@ RSpec.describe 'Admin Merchant Index Page' do
     end
 
     it 'shows top five merchants by total revenue' do
-
       within('#top_five') do
         expect(@merchant_5.name).to appear_before(@merchant_4.name)
         expect(@merchant_4.name).to appear_before(@merchant_3.name)
@@ -84,9 +83,7 @@ RSpec.describe 'Admin Merchant Index Page' do
       expect(page).to_not have_content('Miles')
 
       click_on 'Create New Merchant'
-
       fill_in :name, with: 'Miles'
-
       click_on 'Create Merchant'
 
       expect(current_path).to eq('/admin/merchants')
@@ -105,11 +102,33 @@ RSpec.describe 'Admin Merchant Index Page' do
         expect(page).to have_button("Enable #{@merchant_2.name}")
       end
     end
+
+    it 'moves merchant to Disabled Merchants section after clicking on disable button' do
+      within('#enabled_merchants') do
+        expect(page).to have_button("Disable #{@merchant_1.name}")
+        find_button("Disable #{@merchant_1.name}").click
+      end
+
+      within('#disabled_merchants') do
+        expect(page).to have_button("Enable #{@merchant_1.name}")
+      end
+    end
+
+    it 'moves merchant to Enabled Merchants section after clicking on enable button' do
+      within('#disabled_merchants') do
+        expect(page).to have_button("Enable #{@merchant_2.name}")
+        find_button("Enable #{@merchant_2.name}").click
+      end
+
+      within('#enabled_merchants') do
+        expect(page).to have_button("Disable #{@merchant_2.name}")
+      end
+    end
+
     it 'shows each merchant of the top fives best day' do
       within('#top_five') do
         expect(page).to have_content((Time.now + 6.hour).strftime('%m/%d/%Y'))
       end
     end
   end
-
 end

@@ -22,11 +22,10 @@ RSpec.describe 'Welcome Page' do
     expect(page).to have_content('JBrabson')
     expect(page).to have_content('Caleb1991')
 
-    expect(page).to have_content(98)
-    expect(page).to have_content(33)
+    expect(page).to have_content(103)
+    expect(page).to have_content(36)
+    expect(page).to have_content(6)
     expect(page).to have_content(5)
-    expect(page).to have_content(3)
-
     expect(page).to have_content(30)
   end
 end

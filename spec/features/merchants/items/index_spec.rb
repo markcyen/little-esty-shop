@@ -55,20 +55,32 @@ RSpec.describe 'Merchant Items Index' do
       expect(page).to have_content('Item Qui Esse')
     end
 
-    it 'can update status of an item' do
+    it 'can update status of an item to disable' do
       @merchant = Merchant.create!(name: 'Schroeder-Jerde')
       @item_10 = @merchant.items.create!(name: 'Item Qui Esse', description: 'description', unit_price: 7510, status: "enable")
       visit "/merchants/#{@merchant.id}/items"
-      # binding.pry
+
       find_button("Disable").click
-
-
       expect(current_path).to eq("/merchants/#{@merchant.id}/items")
       expect(page).to have_button("Enable")
 
       @item_10 = Item.find(@item_10.id)
 
       expect(@item_10.status).to eq("disable")
+    end
+
+    it 'can update status of an item to enable' do
+      @merchant = Merchant.create!(name: 'Schroeder-Jerde')
+      @item_11 = @merchant.items.create!(name: 'Item Qui Esse', description: 'description', unit_price: 7510, status: "disable")
+      visit "/merchants/#{@merchant.id}/items"
+
+      find_button("Enable").click
+      expect(current_path).to eq("/merchants/#{@merchant.id}/items")
+      expect(page).to have_button("Disable")
+
+      @item_11 = Item.find(@item_11.id)
+
+      expect(@item_11.status).to eq("enable")
     end
 
     it 'Items are separated into enable and disable' do

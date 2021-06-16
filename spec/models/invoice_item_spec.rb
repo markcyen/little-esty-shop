@@ -45,8 +45,11 @@ RSpec.describe InvoiceItem, type: :model do
 
     describe '#convert_to_dollar' do
       it 'converts unit_price integer to float dollar' do
-        @check_first_invoice_item = InvoiceItem.find_invoice_items(@invoice_1).first
-        expect(@check_first_invoice_item.convert_to_dollar).to eq(394.34)
+        check_first_invoice_item = InvoiceItem.find_invoice_items(@invoice_1).first
+        no_price_invoice_item = InvoiceItem.create(invoice: @invoice_5, item: @item_3, status: 1, quantity: 97, unit_price: nil)
+
+        expect(check_first_invoice_item.convert_to_dollar).to eq(394.34)
+        expect(no_price_invoice_item.convert_to_dollar).to eq(0)
       end
     end
   end

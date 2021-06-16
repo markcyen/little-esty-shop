@@ -6,7 +6,9 @@ class Merchant::InvoicesController < ApplicationController
     @customer = Customer.where('id = ?', @invoice.customer_id).first
     # binding.pry
     @invoice_items = InvoiceItem.joins(item: :merchant).where('invoice_id = ?', @invoice.id).where('items.merchant_id = ?', @merchant.id)
-    @total_revenue = @invoice_items.sum(:unit_price)
+    @total_revenue = @invoice_items.sum do |invoice_item|
+      invoice_item.quantity * invoice_item.unit_price
+    end
     @total_discounted_revenue = @invoice_items.sum do |invoice_item|
       invoice_item.discounted_price_calculation
     end
