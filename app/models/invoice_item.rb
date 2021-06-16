@@ -12,17 +12,17 @@ class InvoiceItem < ApplicationRecord
 
   enum status: ['pending', 'packaged', 'shipped']
 
-  def find_pct_discount
+  def find_discount
     discounts
       .where('threshold <= ?', quantity)
-      .order('pct_discount')
-      .pluck('pct_discount')
+      .order('discounts.pct_discount')
+      # .pluck('pct_discount')
       .last
   end
 
   def discounted_price_calculation
-    if find_pct_discount != nil
-      ((quantity * unit_price.to_f) / 100) * (1 - find_pct_discount)
+    if find_discount != nil
+      ((quantity * unit_price.to_f) / 100) * (1 - find_discount.pct_discount)
     else
       (quantity * unit_price.to_f) / 100
     end

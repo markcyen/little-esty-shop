@@ -99,14 +99,15 @@ RSpec.describe InvoiceItem, type: :model do
       Transaction.create!(invoice_id: @invoice_4.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
     end
 
-    describe '#find_pct_discount' do
+    describe '#find_discount' do
       it 'finds the best percent discount by passing discount quantity threshold' do
-        expect(@invoice_item_1.find_pct_discount).to eq(nil)
-        expect(@invoice_item_2.find_pct_discount).to eq(nil)
-        expect(@invoice_item_3.find_pct_discount).to eq(0.1)
-        expect(@invoice_item_4.find_pct_discount).to eq(nil)
-        expect(@invoice_item_5.find_pct_discount).to eq(0.1)
-        expect(@invoice_item_6.find_pct_discount).to eq(0.2)
+
+        expect(@invoice_item_1.find_discount).to eq(nil)
+        expect(@invoice_item_2.find_discount).to eq(nil)
+        expect(@invoice_item_3.find_discount.pct_discount).to eq(0.1)
+        expect(@invoice_item_4.find_discount).to eq(nil)
+        expect(@invoice_item_5.find_discount.pct_discount).to eq(0.1)
+        expect(@invoice_item_6.find_discount.pct_discount).to eq(0.2)
       end
     end
 
