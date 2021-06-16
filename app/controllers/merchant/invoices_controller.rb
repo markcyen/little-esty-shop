@@ -2,9 +2,14 @@ class Merchant::InvoicesController < ApplicationController
   def show
     @merchant = Merchant.find(params[:merchant_id])
     @invoice = Invoice.find(params[:invoice_id])
+    @items = @invoice.items
     @customer = Customer.where('id = ?', @invoice.customer_id).first
-    @invoice_items = InvoiceItem.where('invoice_id = ?', @invoice.id)
+    # binding.pry
+    @invoice_items = InvoiceItem.joins(item: :merchant).where('invoice_id = ?', @invoice.id).where('items.merchant_id = ?', @merchant.id)
     @total_revenue = @invoice_items.sum(:unit_price)
+    @total_discounted_revenue = @invoice_items.sum do |invoice_item|
+      invoice_item.discounted_price_calculation
+    end
 
     if params[:status] != nil && params[:status] == 1
       InvoiceItem.where('merchant_id = ? AND invoice_id = ?', params[:merchant_id], params[:invoice_id]).first.update(status: 'Pending')
