@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
- 
+
   get "/", to: "welcome#index"
 
   namespace :admin do
@@ -26,10 +26,10 @@ Rails.application.routes.draw do
 
   get '/merchants/:merchant_id/discounts', to: 'merchant/discounts#index'
   get '/merchants/:merchant_id/discounts/new', to: 'merchant/discounts#new'
-  post '/merchants/:merchant_id/discounts', to: 'merchant/discounts#create'
-  delete '/merchants/:merchant_id/discounts', to: 'merchant/discounts#destroy'
-
   get '/merchants/:merchant_id/discounts/:discount_id', to: 'merchant/discounts#show'
   get '/merchants/:merchant_id/discounts/:discount_id/edit', to: 'merchant/discounts#edit'
+
   patch '/merchants/:merchant_id/discounts/:discount_id', to: 'merchant/discounts#update'
+  post '/merchants/:merchant_id/discounts', to: 'merchant/discounts#create'
+  delete '/merchants/:merchant_id/discounts', to: 'merchant/discounts#destroy'
 end
