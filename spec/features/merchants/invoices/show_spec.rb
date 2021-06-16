@@ -111,26 +111,26 @@ RSpec.describe 'Merchant Invoice Show Page' do
       # @invoice_11 = Invoice.create!(customer_id: @customer_6.id, status: 2)
 
       # Scenario 1
-      InvoiceItem.create!(item: @item_1, invoice: @invoice_1, quantity: 24, unit_price: 400, status: 1)
-      InvoiceItem.create!(item: @item_2, invoice: @invoice_1, quantity: 19, unit_price: 340, status: 0)
+      @invoice_item_1 = InvoiceItem.create!(item: @item_1, invoice: @invoice_1, quantity: 24, unit_price: 400, status: 1)
+      @invoice_item_2 = InvoiceItem.create!(item: @item_2, invoice: @invoice_1, quantity: 19, unit_price: 340, status: 0)
 
       # Scenario 2
-      InvoiceItem.create!(item: @item_1, invoice: @invoice_2, quantity: 26, unit_price: 400, status: 1)
-      InvoiceItem.create!(item: @item_2, invoice: @invoice_2, quantity: 19, unit_price: 340, status: 1)
+      @invoice_item_3 = InvoiceItem.create!(item: @item_1, invoice: @invoice_2, quantity: 26, unit_price: 400, status: 1)
+      @invoice_item_4 = InvoiceItem.create!(item: @item_2, invoice: @invoice_2, quantity: 19, unit_price: 340, status: 1)
 
       # Scenario 3
-      InvoiceItem.create!(item: @item_1, invoice: @invoice_3, quantity: 25, unit_price: 400, status: 1)
-      InvoiceItem.create!(item: @item_2, invoice: @invoice_3, quantity: 50, unit_price: 340, status: 1)
+      @invoice_item_5 = InvoiceItem.create!(item: @item_1, invoice: @invoice_3, quantity: 25, unit_price: 400, status: 1)
+      @invoice_item_6 = InvoiceItem.create!(item: @item_2, invoice: @invoice_3, quantity: 50, unit_price: 340, status: 1)
 
       # Scenario 4
-      InvoiceItem.create!(item: @item_1, invoice: @invoice_4, quantity: 51, unit_price: 400, status: 1)
-      InvoiceItem.create!(item: @item_2, invoice: @invoice_4, quantity: 50, unit_price: 340, status: 1)
+      @invoice_item_7 = InvoiceItem.create!(item: @item_1, invoice: @invoice_4, quantity: 51, unit_price: 400, status: 1)
+      @invoice_item_8 = InvoiceItem.create!(item: @item_2, invoice: @invoice_4, quantity: 50, unit_price: 340, status: 1)
 
       # Scenario 5
-      InvoiceItem.create!(item: @item_1, invoice: @invoice_5, quantity: 25, unit_price: 400, status: 1)
-      InvoiceItem.create!(item: @item_2, invoice: @invoice_5, quantity: 50, unit_price: 340, status: 1)
-      InvoiceItem.create!(item: @item_3, invoice: @invoice_5, quantity: 25, unit_price: 400, status: 1)
-      InvoiceItem.create!(item: @item_4, invoice: @invoice_5, quantity: 50, unit_price: 340, status: 1)
+      @invoice_item_9 = InvoiceItem.create!(item: @item_1, invoice: @invoice_5, quantity: 25, unit_price: 400, status: 1)
+      @invoice_item_10 = InvoiceItem.create!(item: @item_2, invoice: @invoice_5, quantity: 50, unit_price: 340, status: 1)
+      @invoice_item_11 = InvoiceItem.create!(item: @item_3, invoice: @invoice_5, quantity: 25, unit_price: 400, status: 1)
+      @invoice_item_12 = InvoiceItem.create!(item: @item_4, invoice: @invoice_5, quantity: 50, unit_price: 340, status: 1)
 
       Transaction.create!(invoice_id: @invoice_1.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
       Transaction.create!(invoice_id: @invoice_2.id, result: 0, credit_card_number: '12345', credit_card_expiration_date: '12345')
@@ -191,5 +191,27 @@ RSpec.describe 'Merchant Invoice Show Page' do
       end
     end
 
+    describe 'link to discount show page' do
+      it 'diplays a link to discount show page' do
+        visit "/merchants/#{@merchant_1.id}/invoices/#{@invoice_2.id}"
+
+        within("#invoice_item-#{@invoice_item_3.item_id}") do
+          expect(page).to have_link("Discount Page")
+        end
+
+        within("#invoice_item-#{@invoice_item_4.item_id}") do
+          expect(page).to_not have_link("Discount Page")
+        end
+
+        visit "/merchants/#{@merchant_2.id}/invoices/#{@invoice_5.id}"
+
+        within("#invoice_item-#{@invoice_item_11.item_id}") do
+          expect(page).to_not have_link("Discount Page")
+        end
+        within("#invoice_item-#{@invoice_item_12.item_id}") do
+          expect(page).to_not have_link("Discount Page")
+        end
+      end
+    end
   end
 end
