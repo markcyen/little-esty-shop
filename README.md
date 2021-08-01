@@ -40,3 +40,10 @@ This project requires Ruby 2.5.3.
 1. [User Stories](./doc/user_stories.md)
 1. [Extensions](./doc/extensions.md)
 1. [Evaluation](./doc/evaluation.md)
+
+## Team
+
+1. [Jen Brabson](https://github.com/JBrabson)
+1. [Regina Casias](https://github.com/rcasias)
+1. [Caleb Wittman](https://github.com/Caleb1991)
+1. [Mark Yen](https://github.com/markcyen)
